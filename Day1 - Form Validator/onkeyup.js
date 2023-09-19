@@ -3,7 +3,7 @@ const username = document.getElementById("username");
 const email = document.getElementById('email');
 const password = document.getElementById("password");
 const password2 = document.getElementById("password2");
-
+const inputs = document.querySelectorAll('form input');
 
 //Show Error Message
 function showError (input,message){
@@ -76,12 +76,20 @@ function getFieldName(input) {
 
 
 //Event Listeners
-form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            checkRequired([username,email,password, password2])
-            checkLength(username,3,15);
-            checkLength(password, 6, 25);
-            checkEmail(email);
-            checkPasswordMatch(password, password2);
+inputs.forEach(function (input) {
+  input.addEventListener("keyup", function (e) {
+    
+    if(input.id === 'username'){
+        checkLength(input, 3, 15);
+    }else if (input.id === "password" || input.id === "password2") {
+      checkLength(input, 6, 25);
+      checkPasswordMatch(password, password2);
+    } else if (input.id === "email") {
+       checkEmail(input);
+    }else {
+        checkRequired([input]);
+    }
 
-})
+
+  });
+});
